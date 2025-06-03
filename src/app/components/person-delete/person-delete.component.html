@@ -1,7 +1,9 @@
-<h2>Delete Person</h2>
-
-<div *ngIf="person">
-  <p>Are you sure you want to delete <strong>{{ person.name }}</strong>?</p>
-  <button (click)="deletePerson()">Yes, Delete</button>
-  <button (click)="cancel()">Cancel</button>
+<div class="delete-person-container">
+  <div *ngIf="person">
+    <p class="delete-question">Are you sure you want to delete <strong>{{ person.name }}</strong>?</p>
+    <div class="button-group">
+      <button (click)="deletePerson()">Yes, Delete</button>
+      <button (click)="cancel()" type="button" class="cancel-btn">Cancel</button>
+    </div>
+  </div>
 </div>
