@@ -19,23 +19,28 @@ export class PersonDeleteComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-  const id = Number(this.route.snapshot.paramMap.get('id'));
-  this.personService.getPersonById(id).subscribe(p => {
-    if (p) {
-      this.person = p;
-    } else {
-      alert('Person not found');
-      this.router.navigate(['/']);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.personService.getPersonById(id).subscribe(p => {
+        if (p) {
+          this.person = p;
+        } else {
+          alert('Person not found');
+          this.router.navigate(['/']);
+        }
+      });
     }
-  });
-}
-
+  }
 
   deletePerson() {
-    if (this.person) {
-      this.personService.deletePerson(this.person.id);
-      alert('Person deleted successfully');
-      this.router.navigate(['/']);
+    if (this.person && this.person._id) {
+      this.personService.deletePerson(this.person._id).subscribe({
+        next: () => {
+          alert('Person deleted successfully');
+          this.router.navigate(['/']);
+        },
+        error: err => alert('Error deleting person')
+      });
     }
   }
 

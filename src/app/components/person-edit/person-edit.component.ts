@@ -10,7 +10,7 @@ import { Person } from '../../person.model';
   styleUrls: ['./person-edit.component.css']
 })
 export class PersonEditComponent implements OnInit {
-  person: Person = { id: 0, name: '', age: 0, gender: '', mobile: '' };
+  person: Person = { name: '', age: 0, gender: '', mobile: '' };
 
   constructor(
     private route: ActivatedRoute,
@@ -19,20 +19,28 @@ export class PersonEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.personService.getPersonById(id).subscribe(p => {
-      if (p) {
-        this.person = { ...p };
-      } else {
-        alert('Person not found');
-        this.router.navigate(['/']);
-      }
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.personService.getPersonById(id).subscribe(p => {
+        if (p) {
+          this.person = { ...p };
+        } else {
+          alert('Person not found');
+          this.router.navigate(['/people']);
+        }
+      });
+    }
   }
 
   updatePerson() {
-    this.personService.updatePerson(this.person);
-    alert('Person updated successfully');
-    this.router.navigate(['/']);
+    if (this.person._id) {
+      this.personService.updatePerson(this.person._id, this.person).subscribe({
+        next: () => {
+          alert('Person updated successfully');
+          this.router.navigate(['/people']);
+        },
+        error: err => alert('Error updating person')
+      });
+    }
   }
 }

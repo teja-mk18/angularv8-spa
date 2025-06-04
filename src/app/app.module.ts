@@ -8,6 +8,7 @@ import { PersonEditComponent } from './components/person-edit/person-edit.compon
 import { PersonDeleteComponent } from './components/person-delete/person-delete.component';
 import { HomeComponent } from './components/home/home.component';
 import { PersonCreateComponent } from './components/person-create/person-create.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { PersonCreateComponent } from './components/person-create/person-create.
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule
   ],

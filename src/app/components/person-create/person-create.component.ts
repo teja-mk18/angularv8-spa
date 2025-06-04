@@ -10,7 +10,6 @@ import { Person } from '../../person.model';
 })
 export class PersonCreateComponent {
   person: Person = {
-    id: 0,
     name: '',
     age: 0,
     gender: 'Male',
@@ -20,8 +19,9 @@ export class PersonCreateComponent {
   constructor(private personService: PersonService, private router: Router) {}
 
   createPerson() {
-    this.person.id = new Date().getTime(); // temporary ID
-    this.personService.addPerson(this.person);
-    this.router.navigate(['/people']);
+    this.personService.addPerson(this.person).subscribe({
+      next: () => this.router.navigate(['/people']),
+      error: err => console.error('Error creating person:', err)
+    });
   }
 }
